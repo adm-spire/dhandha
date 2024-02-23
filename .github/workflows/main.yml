@@ -1,0 +1,25 @@
+name: Enable CORS Headers
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  enable-cors:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Add CORS Headers
+        run: echo "Access-Control-Allow-Origin: *" > corsHeaders.txt
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Add CORS headers"
+          file_pattern: corsHeaders.txt
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
